@@ -23,14 +23,13 @@ type Comment {
   updatedAt: DateTime!
   author: User!
   parent: Comment
-  replies: [Comment!]!
+  replies: [Comment!]
 }
 
 type Query {
-  users: [User!]!
+  users: [User!]
   user(id: ID!): User
-
-  comments(parentId: ID): [Comment!]!
+  comments: [Comment!]
   comment(id: ID!): Comment
 
    generateGoogleAuthLink: String!

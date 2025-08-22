@@ -3,7 +3,7 @@ import { NextResponse } from "next/server"
 import client from "@/lib/OAuthClient"
 import { TokenPayload } from "google-auth-library"
 import jwt from 'jsonwebtoken'
-import { IUserDocument } from "@/lib/db/types"
+import { IUser} from "@/lib/db/types"
 import prisma from "@/lib/db/prisma"
 import { BASE_URL } from "@/lib/constants"
 import { env } from "@/lib/type-guards"
@@ -16,7 +16,7 @@ export const GET = async (req: NextRequest) => {
     }
 
     let payload: TokenPayload | undefined
-    let user: IUserDocument | null
+    let user: IUser | null
 
     try {
         const { tokens } = await client.getToken(code)

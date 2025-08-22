@@ -1,21 +1,22 @@
-'use client'
-import { getGoogleOAuthLink } from "@/lib/db";
-import { Button, Typography } from "@mui/material";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { Container, } from "@mui/material";
+import NewComment from "./components/NewComment";
+import CommentList from "./components/CommentList";
 
 export default function Home() {
-  const router = useRouter()
-
-  const handleSignIn = async () => {
-    const url = await getGoogleOAuthLink()
-    router.push(url)
-  }
 
   return (
-    <div>
-      <Typography>Main page</Typography>
-      <Button onClick={handleSignIn}>Sign in</Button>
-    </div>
-  );
+    <Container
+      maxWidth='xl'
+      sx={{
+        width: '600px',
+        paddingTop: '1rem',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 2
+      }}
+    >
+      <CommentList />
+      <NewComment />
+    </Container>
+  )
 }
