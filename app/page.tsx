@@ -1,8 +1,11 @@
-import { Container, } from "@mui/material";
-import NewComment from "./components/NewComment";
+import { Container } from "@mui/material";
+import { getAllComments } from "@/lib/db";
 import CommentList from "./components/CommentList";
+import NewCommentForm from "./components/NewCommentForm";
 
-export default function Home() {
+export default async function Home() {
+  // Server-side data fetching
+  const comments = await getAllComments();
 
   return (
     <Container
@@ -15,8 +18,8 @@ export default function Home() {
         gap: 2
       }}
     >
-      <CommentList />
-      <NewComment />
+      <CommentList comments={comments} />
+      <NewCommentForm />
     </Container>
   )
 }

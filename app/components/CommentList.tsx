@@ -1,37 +1,41 @@
-import { getAllComments } from "@/lib/db"
-import { notFound } from "next/navigation"
-import CommentPost from "./CommentPost"
-import CommentReply from "./CommentReply";
 import { Box } from "@mui/material";
-import { type IReplies } from "@/lib/db/types";
+import { type IComment } from "@/lib/db/types";
+import CommentItem from "./CommentItem";
 
-async function RenderReplies({ replies, depth = 1 }: { replies: IReplies; depth?: number }) {
+interface CommentListProps {
+  comments: IComment[] | null;
+}
+
+function RenderReplies({ replies, depth = 1 }: { replies: IComment[]; depth?: number }) {
     return (
         <>
             {replies.map(reply => (
                 <Box key={reply.id} ml={3} mt={1}>
-                    <CommentReply id={reply.id} />
+                    <CommentItem comment={reply} depth={depth} />
 
                     {reply.replies && reply.replies.length > 0 && (
                         <RenderReplies replies={reply.replies} depth={depth + 1} />
                     )}
-
                 </Box>
             ))}
         </>
     )
 }
 
-export default async function CommentList() {
-    const res = await getAllComments()
-
-    if (!res) return notFound()
+export default function CommentList({ comments }: CommentListProps) {
+    if (!comments || comments.length === 0) {
+        return (
+            <Box sx={{ p: 2, textAlign: 'center' }}>
+                <p>No comments yet. Be the first to comment!</p>
+            </Box>
+        )
+    }
 
     return (
         <>
-            {res.map(comment => (
+            {comments.map(comment => (
                 <Box key={comment.id}>
-                    <CommentPost {...comment} />
+                    <CommentItem comment={comment} depth={0} />
 
                     {comment.replies && comment.replies.length > 0 && (
                         <RenderReplies replies={comment.replies} depth={1} />

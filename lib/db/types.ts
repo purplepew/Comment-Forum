@@ -24,10 +24,7 @@ export type IComment = {
     author: IUser,
 }
 
-export type IReplies = {
-    id: string,
-    replies: IReplies
-}[]
+export type IReplies = IComment[]
 
 export type GoogleOAuthLinkResponse = {
     data: {

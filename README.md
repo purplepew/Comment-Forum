@@ -1,40 +1,117 @@
-<<<<<<< HEAD
-# Comment-Forum
-=======
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Comment Forum
+
+A modern comment forum built with Next.js 13+ App Router, Material-UI, and following Vercel Commerce architecture patterns.
+
+## Architecture
+
+This project follows Vercel Commerce patterns with:
+
+- **Server Components by default** - Only use client components when absolutely necessary
+- **Server-side data fetching** - Data is fetched on the server, not in useEffect
+- **Server Actions** - Form submissions and mutations use server actions
+- **Proper error handling** - Next.js error boundaries and error.tsx
+- **Loading states** - Built-in loading.tsx for better UX
+- **Type safety** - Full TypeScript support
+
+## Project Structure
+
+```
+app/
+├── components/
+│   ├── CommentActions.tsx     # Client component for like/reply actions
+│   ├── CommentItem.tsx        # Server component for individual comments
+│   ├── CommentList.tsx        # Server component for comment list
+│   ├── NewCommentForm.tsx     # Client component for comment creation
+│   └── layout/
+│       ├── Header.tsx         # Client component for navigation
+│       └── Theme.tsx          # Client component for Material-UI theme
+├── error.tsx                  # Error boundary for the app
+├── loading.tsx                # Loading state for the app
+├── not-found.tsx              # 404 page
+├── layout.tsx                 # Root layout with metadata
+└── page.tsx                   # Main page with server-side data fetching
+
+lib/
+├── actions/
+│   └── comments.ts            # Server actions for comment operations
+├── db/
+│   ├── index.ts               # Database client and queries
+│   ├── mutations/
+│   ├── queries/
+│   ├── prisma.ts              # Prisma client
+│   └── types.ts               # TypeScript types
+├── constants.ts               # App constants
+└── OAuthClient.ts             # Google OAuth client
+```
+
+## Key Features
+
+### Server Components
+- `CommentList` - Renders the list of comments with data passed as props
+- `CommentItem` - Renders individual comments with proper nesting
+- `page.tsx` - Main page that fetches data server-side
+
+### Client Components
+- `CommentActions` - Handles like/reply interactions
+- `NewCommentForm` - Handles comment creation with form state
+- `Header` - Navigation with OAuth integration
+
+### Server Actions
+- `createCommentAction` - Creates new comments with validation
+- `getCommentsAction` - Fetches all comments
+- `getCommentAction` - Fetches individual comments
+
+### Error Handling
+- `error.tsx` - Global error boundary
+- `not-found.tsx` - 404 page
+- Form-level error handling in client components
 
 ## Getting Started
 
-First, run the development server:
-
+1. Install dependencies:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Set up environment variables:
+```bash
+cp .env.example .env.local
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. Set up the database:
+```bash
+npx prisma generate
+npx prisma db push
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+4. Run the development server:
+```bash
+npm run dev
+```
 
-## Learn More
+## Development
 
-To learn more about Next.js, take a look at the following resources:
+### Adding New Features
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. **Server Components** - Create components without 'use client' for static rendering
+2. **Client Components** - Add 'use client' only when you need interactivity
+3. **Server Actions** - Create actions in `lib/actions/` for form submissions
+4. **Error Handling** - Use try-catch in server actions and error boundaries
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Best Practices
 
-## Deploy on Vercel
+- Use server components by default
+- Only use client components for interactivity
+- Fetch data on the server when possible
+- Use server actions for mutations
+- Handle errors gracefully at multiple levels
+- Keep components focused and single-purpose
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Technologies
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
->>>>>>> 228938e (Initial commit)
+- **Next.js 13+** - App Router with server components
+- **Material-UI** - Component library
+- **Prisma** - Database ORM
+- **GraphQL** - API layer with GraphQL Yoga
+- **TypeScript** - Type safety
+- **PostgreSQL** - Database
