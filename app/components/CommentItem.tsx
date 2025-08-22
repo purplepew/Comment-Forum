@@ -1,6 +1,7 @@
 import { Box, Typography } from "@mui/material";
 import { type IComment } from "@/lib/db/types";
 import CommentActions from "./CommentActions";
+import FormattedDate from "./FormattedDate";
 
 interface CommentItemProps {
   comment: IComment;
@@ -18,14 +19,7 @@ export default function CommentItem({ comment, depth }: CommentItemProps) {
         }}
       >
         <Typography variant="body2">{comment.content}</Typography>
-        <Typography
-          variant='caption'
-          color='textSecondary'
-          display="block"
-          mt={0.5}
-        >
-          {new Date(comment.createdAt).toLocaleString()}
-        </Typography>
+        <FormattedDate date={comment.createdAt} />
         {comment.author && (
           <Typography
             variant='caption'
